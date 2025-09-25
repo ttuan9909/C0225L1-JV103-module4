@@ -6,6 +6,7 @@ import com.example.product_thymleaf.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class ProductController {
     public String list(Model model) {
         List<Product> products = productService.findAll();
         model.addAttribute("products", products);
-        return "product/list"; // Trỏ tới /WEB-INF/views/product/list.jsp
+        return "product/list";
     }
 
     @GetMapping("/{id}")
@@ -29,13 +30,13 @@ public class ProductController {
             return "error";
         }
         model.addAttribute("product", product);
-        return "product/detail"; // /WEB-INF/views/product/detail.jsp
+        return "product/detail";
     }
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("product", new Product());
-        return "product/create"; // form.jsp
+        return "product/create";
     }
 
     @PostMapping("/create")
@@ -70,15 +71,14 @@ public class ProductController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id")  int id, Model model) {
+    public String delete(@PathVariable("id") int id, RedirectAttributes ra) {
         System.out.println(">>> Try delete id = " + id);
-        productService.findAll().forEach(p -> System.out.println("Have: " + p.getId() + " - " + p.getName()));
         boolean success = productService.delete(id);
         System.out.println(">>> Success? " + success);
-        if (!success) {
-            model.addAttribute("message", "Xóa thất bại hoặc sản phẩm không tồn tại!");
-            return "error";
-        }
+
+        ra.addFlashAttribute("message",
+                success ? "Đã xóa sản phẩm #" + id
+                        : "Xóa thất bại hoặc sản phẩm không tồn tại!");
         return "redirect:/products";
     }
 }
