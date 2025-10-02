@@ -13,7 +13,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/products")
 public class ProductController {
-    private final IProductService productService = new ProductService();
+    private final IProductService productService;
+
+    public ProductController(IProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping
     public String list(Model model) {
@@ -72,10 +76,7 @@ public class ProductController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id, RedirectAttributes ra) {
-        System.out.println(">>> Try delete id = " + id);
         boolean success = productService.delete(id);
-        System.out.println(">>> Success? " + success);
-
         ra.addFlashAttribute("message",
                 success ? "Đã xóa sản phẩm #" + id
                         : "Xóa thất bại hoặc sản phẩm không tồn tại!");

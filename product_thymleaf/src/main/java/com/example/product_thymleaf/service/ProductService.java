@@ -2,14 +2,18 @@ package com.example.product_thymleaf.service;
 
 import com.example.product_thymleaf.entity.Product;
 import com.example.product_thymleaf.repository.IProductRepository;
-import com.example.product_thymleaf.repository.ProductReposiory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ProductService implements IProductService {
-    private final IProductRepository productRepository = new ProductReposiory();
+    private final IProductRepository productRepository;
+
+    public ProductService(IProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
     @Override
     public List<Product> findAll() {
         return productRepository.findAll();    }
@@ -32,7 +36,7 @@ public class ProductService implements IProductService {
 
     @Override
     public boolean delete(int id) {
-        return false;
+        return productRepository.delete(id);
     }
 
     @Override
