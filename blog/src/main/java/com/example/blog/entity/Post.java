@@ -27,4 +27,7 @@ public class Post {
     private String content;
     private String summary;
     private LocalDateTime createdAt = LocalDateTime.now();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 }

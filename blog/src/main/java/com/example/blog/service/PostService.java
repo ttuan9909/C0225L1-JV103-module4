@@ -3,6 +3,8 @@ package com.example.blog.service;
 import com.example.blog.entity.Post;
 import com.example.blog.repository.IPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,5 +36,10 @@ public class PostService implements IPostService {
     @Override
     public void deleteById(int id) {
         postRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Post> findAll(String title, Pageable pageable) {
+        return postRepository.findAllByTitleContaining(title, pageable);
     }
 }
