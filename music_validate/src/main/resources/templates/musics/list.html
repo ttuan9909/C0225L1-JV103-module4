@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách bài hát</title>
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="m-0">Danh sách bài hát</h2>
+    <a class="btn btn-primary" th:href="@{/musics/create}">+ Thêm bài hát</a>
+  </div>
+
+  <div th:if="${#lists.isEmpty(musics)}" class="alert alert-info">
+    Chưa có bài hát nào.
+  </div>
+
+  <div class="table-responsive" th:if="${!#lists.isEmpty(musics)}">
+    <table class="table table-striped align-middle">
+      <thead>
+      <tr>
+        <th style="width: 80px;">ID</th>
+        <th>Tên</th>
+        <th>Nghệ sĩ</th>
+        <th>Thể loại</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="u : ${musics}">
+        <td th:text="${u.id}">1</td>
+        <td th:text="${u.name}">1</td>
+        <td th:text="${u.artist}">1</td>
+        <td th:text="${u.type}">1</td>
+        <td>
+          <a class="btn btn-sm btn-outline-secondary"
+             th:href="@{/musics/edit/{id}(id=${u.id})}">Sửa</a>
+          <form th:action="@{/musics/delete/{id}(id=${u.id})}"
+                method="post" class="d-inline">
+            <button type="submit" class="btn btn-sm btn-outline-danger"
+                    onclick="return confirm('Xoá bài hát này?')">Xoá</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>
