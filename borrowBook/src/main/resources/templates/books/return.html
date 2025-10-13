@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Trả sách</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="container py-4">
+<h2 class="text-center text-primary mb-3">📘 TRẢ SÁCH</h2>
+
+<div th:if="${msg}" class="alert alert-success text-center" th:text="${msg}"></div>
+
+<form th:action="@{/books/return}" method="post" class="card p-4 shadow-sm mx-auto" style="max-width: 400px;">
+  <div class="mb-3">
+    <label class="form-label fw-bold">Nhập mã mượn sách (5 chữ số):</label>
+    <input type="text" name="code" class="form-control" placeholder="Ví dụ: 03125" required minlength="5"
+           maxlength="5" pattern="\d{5}">
+  </div>
+  <div class="d-flex justify-content-between">
+    <button type="submit" class="btn btn-success">Trả sách</button>
+    <a href="/books" class="btn btn-secondary">Quay lại</a>
+  </div>
+</form>
+
+</body>
+</html>

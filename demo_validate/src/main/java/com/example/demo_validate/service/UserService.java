@@ -1,5 +1,6 @@
 package com.example.demo_validate.service;
 
+import com.example.demo_validate.dto.UserDto;
 import com.example.demo_validate.entity.User;
 import com.example.demo_validate.repository.IUserRepository;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<UserDto> findAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
+    public UserDto save(UserDto userDto) {
+        return userRepository.save(userDto);
     }
 }

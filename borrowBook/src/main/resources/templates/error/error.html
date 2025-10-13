@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Lỗi hệ thống</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="container py-5 text-center">
+<h3 class="text-danger mb-3">❌ LỖI HỆ THỐNG</h3>
+<p class="lead" th:text="${error}"></p>
+<a href="/books" class="btn btn-secondary mt-3">Về trang chủ</a>
+</body>
+</html>

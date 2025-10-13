@@ -1,5 +1,6 @@
 package com.example.demo_validate.controller;
 
+import com.example.demo_validate.dto.UserDto;
 import com.example.demo_validate.entity.User;
 import com.example.demo_validate.service.UserService;
 import jakarta.validation.Valid;
@@ -26,19 +27,19 @@ public class UserController {
 
     @GetMapping("create")
     public String createForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("userDto", new UserDto());
         return "users/form";
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute("user") @Valid User user,
+    public String save(@ModelAttribute("userDto") @Valid UserDto userDto,
                        BindingResult bindingResult,
                        Model model) {
         if (bindingResult.hasErrors()) {
             return "users/form";
         }
-        userService.save(user);
-        model.addAttribute("fullName", user.getFirstName() + " " + user.getLastName());
+        userService.save(userDto);
+        model.addAttribute("fullName", userDto.getFirstName() + " " + userDto.getLastName());
         return "redirect:/users";
     }
 }

@@ -9,7 +9,7 @@
 <div class="container py-4">
     <h2 class="mb-3">Form thêm bài hát</h2>
 
-    <form th:action="@{/musics/save}" th:object="${music}" method="post" class="row g-3">
+    <form th:action="@{/musics/save}" th:object="${musicDto}" method="post" class="row g-3">
 
         <div class="col-md-6">
             <label class="form-label">Tên</label>

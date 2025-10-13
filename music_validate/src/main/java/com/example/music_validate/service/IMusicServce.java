@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IMusicServce {
     List<Music> findAll();
-    Music save(Music user);
+    boolean save(Music music);
 }

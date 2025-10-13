@@ -20,7 +20,7 @@ public class MusicService implements IMusicServce{
     }
 
     @Override
-    public Music save(Music music) {
-        return repository.save(music);
+    public boolean save(Music music) {
+        return repository.save(music)!=null;
     }
 }

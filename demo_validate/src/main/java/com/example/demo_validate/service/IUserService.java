@@ -1,10 +1,11 @@
 package com.example.demo_validate.service;
 
+import com.example.demo_validate.dto.UserDto;
 import com.example.demo_validate.entity.User;
 
 import java.util.List;
 
 public interface IUserService {
-    List<User> findAll();
-    User save(User user);
+    List<UserDto> findAll();
+    UserDto save(UserDto userDto);
 }

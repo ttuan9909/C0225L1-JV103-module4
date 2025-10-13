@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sách trong thư viện</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="container py-4">
+<h2 class="mb-3 text-primary text-center">📚 DANH SÁCH SÁCH TRONG THƯ VIỆN</h2>
+
+<div th:if="${msg}" class="alert alert-success text-center" th:text="${msg}"></div>
+
+<table class="table table-striped table-bordered align-middle text-center">
+    <thead class="table-dark">
+    <tr>
+        <th>ID</th>
+        <th>Tên sách</th>
+        <th>Số lượng còn lại</th>
+        <th>Thao tác</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.id}"></td>
+        <td th:text="${book.title}"></td>
+        <td>
+            <span th:if="${book.availableQuantity > 0}"
+                  th:text="${book.availableQuantity}" class="text-success fw-bold"></span>
+            <span th:if="${book.availableQuantity == 0}" class="text-danger fw-bold">Hết sách</span>
+        </td>
+        <td>
+            <a th:href="@{'/books/' + ${book.id}}" class="btn btn-sm btn-primary">Chi tiết / Mượn</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="mt-4 text-center">
+    <a href="/books/return" class="btn btn-outline-success">Trả sách</a>
+    <a href="/logs" class="btn btn-outline-secondary">Xem log</a>
+</div>
+
+</body>
+</html>

@@ -1,27 +1,27 @@
-package com.example.demo_validate.entity;
+package com.example.borrowbook.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+import java.time.LocalDateTime;
+
 @Entity
-public class User {
+@Getter
+@Setter
+@NoArgsConstructor
+public class AuditLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-    private String age;
-    private String email;
+
+    private Long bookId;
+    private String action;
+    private int delta;
+    private LocalDateTime at;
+    private String note;
 }
