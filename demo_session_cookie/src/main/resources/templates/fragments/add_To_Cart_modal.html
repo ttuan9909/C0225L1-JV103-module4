@@ -1,0 +1,37 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="addToCartModal">
+    <div class="modal fade" id="addCartModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title">Đã thêm vào giỏ hàng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-1">Sản phẩm: <strong th:text="${addedName}">Tên sản phẩm</strong></p>
+                    <p th:if="${addedPrice != null}">Giá: <strong th:text="${addedPrice} + ' đ'">0</strong></p>
+                    <p class="text-muted small mb-0">Bạn muốn tiếp tục mua sắm hay xem giỏ hàng?</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-outline-secondary" th:href="@{/shop}">Tiếp tục mua sắm</a>
+                    <a class="btn btn-primary" th:href="@{/shopping-cart}">Xem giỏ hàng</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Auto-show khi có flash attribute -->
+<th:block th:if="${addedOk}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var el = document.getElementById('addCartModal');
+            if (el && typeof bootstrap !== 'undefined') {
+                new bootstrap.Modal(el).show();
+            }
+        });
+    </script>
+</th:block>
+</body>
+</html>
