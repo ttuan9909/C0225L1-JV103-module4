@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-3.6.0.js"></script>
+</head>
+<body>
+<h1>Danh sách</h1>
+
+<form id="search-form">
+    <input type="text" id="q" placeholder="Nhập tiêu đề..." />
+    <button id="btn-search" type="submit">Search</button>
+</form>
+<table>
+    <tr>
+        <td>ID</td>
+        <td>Title</td>
+        <td>Content</td>
+        <td>Summary</td>
+        <td>Category</td>
+    </tr>
+    <tbody id="content"></tbody>
+</table>
+<button id="btn-more">Xem thêm</button>
+<h1>Footer</h1>
+
+<script>
+    $(document).ready(function (){
+        let page =0;
+        let title = "";
+        const BASE = "http://localhost:8080/v1/api/posts";
+
+        display();
+
+        $('#btn-more').click(displayMore);
+        // $('#btn-save').click(save);
+        $('#btn-search').on('click', function(e){
+            e.preventDefault();
+            search();
+        });
+
+        $('#search-form').on('submit', function (e) {
+            e.preventDefault();
+            search();
+        });
+
+        function buildUrl(p, q) {
+            return q && q.trim().length > 0
+                ? `${BASE}?title=${encodeURIComponent(q.trim())}&page=${p}`
+                : `${BASE}?page=${p}`;
+        }
+
+
+        // function save(){
+        //     let name = $("#name").val();
+        //     let gender = $('input[name="gender"]:checked').val();
+        //     let classId = $("#classId").val();
+        //     const student = {
+        //         name,
+        //         gender,
+        //         classCG: {
+        //             id: classId
+        //         }
+        //     }
+        //     console.log(student)
+        //     $.ajax({
+        //         url: buildUrl(page,title),
+        //         dataType: "json",
+        //         contentType: "application/json",
+        //         type: "post",
+        //         data: JSON.stringify(student),
+        //         complete: function ( data, textStatus, res){
+        //             console.log("thêm mới thành công")
+        //             console.log(res.status);
+        //             page=0;
+        //             display(page);
+        //         },
+        //         error: function (res){
+        //             console.log("-----------lỗi---------")
+        //             console.log(res.status)
+        //         }
+        //     });
+        // }
+
+
+        function displayMore(){
+            page++;
+            display();
+        }
+
+        function display(){
+            $.ajax({
+                url: buildUrl(page,title),
+                dataType: "json",
+                type: "get",
+                success: function ( data, textStatus, res){
+                    console.log("------data------------");
+                    let content ="";
+                    for (let i = 0; i <data.content.length ; i++) {
+                        content +=`    <tr>
+                                        <td>${data.content[i].id}</td>
+                                        <td>${data.content[i].title}</td>
+                                        <td>${data.content[i].content}</td>
+                                        <td>${data.content[i].summary}</td>
+                                        <td>${data.content[i].categoryDto.name}</td>
+                                    </tr>`
+                    }
+                    $("#content").append(content)
+                    console.log(data);
+                    console.log(textStatus)
+                    console.log(res.status)
+                },
+                error: function (res){
+                    console.log("-----------lỗi---------")
+                    console.log(res.status)
+                }
+            });
+        }
+
+        function search(){
+            const kw = ($('#q').val() || "").trim();
+            title = kw;
+
+            page = 0;
+            $("#content").empty();
+            $('#btn-more').prop('disabled', false).text('Xem thêm');
+            display();
+        }
+
+    });
+</script>
+</body>
+</html>

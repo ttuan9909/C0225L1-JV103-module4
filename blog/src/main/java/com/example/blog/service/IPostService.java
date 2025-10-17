@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IPostService {
-    List<Post> findAll();
+    Page<Post> findAll(Pageable pageable);
     Optional<Post> findById(int id);
     Post save(Post post);
     void deleteById(int id);
-    Page<Post> findAll(String title, Pageable pageable);
+    Page<Post> search(String title, Pageable pageable);
 }

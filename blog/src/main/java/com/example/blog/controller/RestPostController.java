@@ -8,6 +8,9 @@ import com.example.blog.service.ICategoryService;
 import com.example.blog.service.IPostService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -38,14 +41,20 @@ public class RestPostController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<PostDto>> getAll() {
-        List<Post> posts = postService.findAll();
-        if (posts.isEmpty()) {
+    public ResponseEntity<Page<PostDto>> showList(@RequestParam (name = "page",required = false,defaultValue = "0") int page,
+                                                  @RequestParam(name = "title", required = false)String title) {
+
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<PostDto> postDtos ;
+        if (title != null && !title.trim().isEmpty()) {
+            postDtos = postService.search(title.trim(), pageable).map(this::convertToDto);
+        } else {
+            postDtos = postService.findAll(pageable).map(this::convertToDto);
+        }
+
+        if (postDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        List<PostDto> postDtos = posts.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
         return new ResponseEntity<>(postDtos, HttpStatus.OK);
     }
 

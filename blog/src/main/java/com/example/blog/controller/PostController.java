@@ -35,7 +35,7 @@ public class PostController {
         Pageable pageable = PageRequest.of(page,3,Sort.by("title").descending());
 
         ModelAndView modelAndView = new ModelAndView("/posts/list");
-        Page<Post> postPage = postService.findAll(title,pageable);
+        Page<Post> postPage = postService.search(title,pageable);
         modelAndView.addObject("postPage", postPage);
         modelAndView.addObject("searchTitle", title);
         return modelAndView;
